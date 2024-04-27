@@ -14,15 +14,12 @@ class PostController extends Controller
 
     public function index()
     {
-        $this->getPostsRandom();
-        $this->getUsersRandom();
-        $this->putUserOnArticlesRandom();
+        $this->getAllDataPost();
+        
         $postsRandom = $this->limitRecords( request()->page );
-        $this->saveSessionPostsRandom();
         $postController = Post::paginate(10); 
-        $usersRandom = $this->usersRandom;
 
-        return view('post.index', compact(['postsRandom', 'usersRandom', 'postController']));
+        return view('post.index', compact(['postsRandom', 'postController']));
     }
 
     public function show($post)
@@ -30,6 +27,14 @@ class PostController extends Controller
         $articles = ServiceController::getSession('articles');
         $posts = $articles[$post-1];
         return view('post.show', compact('posts'));
+    }
+
+    private function getAllDataPost()
+    {
+        $this->getPostsRandom();
+        $this->getUsersRandom();
+        $this->putUserOnArticlesRandom();
+        $this->saveSessionPostsRandom();
     }
 
     private function getPostsRandom()
